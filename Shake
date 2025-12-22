@@ -1,0 +1,4 @@
+setInterval(() => {
+  document.body.style.marginLeft = (Math.random() * 10 - 5) + 'px';
+  document.body.style.marginTop = (Math.random() * 10 - 5) + 'px';
+}, 50);
