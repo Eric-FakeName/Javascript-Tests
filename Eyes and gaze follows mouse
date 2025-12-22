@@ -1,4 +1,4 @@
-fnction createEye(x, y) {
+function createEye(x, y) {
   const eye = document.createElement('div');
   eye.style.position = 'fixed';
   eye.style.left = x + 'px';
