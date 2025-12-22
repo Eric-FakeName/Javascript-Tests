@@ -6,10 +6,23 @@ elements.forEach(el => {
   el.style.transition = "color 0.5s";
 });
 
+// This function is used to generate a random color it does nothing if you leave 'red'
+function randomColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 let visible = true;
 setInterval(() => {
   elements.forEach(el => {
-    el.style.color = visible ? "red" : "inherit"; // change with a color that you want
+    el.style.color = visible ? "red" : "inherit"; // change with a color that you want. 
+//if you want the color to be random each time, replace "red" by randomColor()
+
   });
   visible = !visible;
 }, 500);
+
+
+
