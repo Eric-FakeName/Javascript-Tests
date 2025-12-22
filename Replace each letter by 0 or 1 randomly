@@ -1,19 +1,19 @@
 (() => {
-  // Balises à ignorer
+  // Tags to ignore
   const SKIP_TAGS = new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','IFRAME','CANVAS','SELECT','OPTION']);
   // Stockage des originaux (WeakMap pour éviter fuites mémoire)
   const originalMap = new WeakMap();
 
-  // Fonction qui transforme le texte : garde ' ' et retours à la ligne, remplace le reste par 0/1 aléatoire
+  // Function that transforms text but keeps spaces and line breaks and replaces the rest with random 0/1
   const toBinary = txt => txt.replace(/[^\n\r ]/g, () => (Math.random() < 0.5 ? '0' : '1'));
 
-  // TreeWalker pour parcourir tous les noeuds textes du body
+  // TreeWalker to traverse all the text nodes of the body
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
     {
       acceptNode(node) {
-        // s'il n'y a pas de parent ou c'est que de l'espace/retour à la ligne -> ignorer
+        // if there is no parent or it is just space/line break -> ignore
         const parent = node.parentElement;
         if (!parent) return NodeFilter.FILTER_REJECT;
         // ignorer certaines balises
@@ -28,23 +28,23 @@
     false
   );
 
-  // Collecte des noeuds (ne pas modifier pendant l'itération)
+  // Collecting nodes do not modify during iteration
   const textNodes = [];
   while (walker.nextNode()) textNodes.push(walker.currentNode);
 
-  // Appliquer la transformation et sauvegarder l'original
+  // apply the transformation and save the original
   textNodes.forEach(n => {
     if (!originalMap.has(n)) originalMap.set(n, n.nodeValue);
     n.nodeValue = toBinary(n.nodeValue);
   });
 
-  // Fournir une fonction de restauration accessible via la console
+  // Provide a restore function accessible through the console but idk if that's useful 
   window.__restoreBinaryText = () => {
     try {
       textNodes.forEach(n => {
         if (originalMap.has(n)) n.nodeValue = originalMap.get(n);
       });
-      // nettoyage optionnel : retirer la référence pour éviter redondance
+      // optional cleaning and again idk if that's useful lol
       delete window.__restoreBinaryText;
       console.log('Texte restauré à l\'original.');
     } catch (e) {
@@ -52,5 +52,5 @@
     }
   };
 
-  console.log('Conversion terminée. Pour restaurer le texte original, tapez : window.__restoreBinaryText()');
+  console.log('Conversion complete. To restore the original text, type : window.__restoreBinaryText()');
 })();
