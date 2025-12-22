@@ -1,0 +1,7 @@
+document.querySelectorAll('*').forEach(el => {
+  el.style.transition = 'transform 0.2s ease';
+  el.addEventListener('click', () => {
+    el.style.transform = 'scale(0.9)';
+    setTimeout(() => el.style.transform = 'scale(1)', 200);
+  });
+});
