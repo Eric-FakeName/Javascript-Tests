@@ -1,0 +1,54 @@
+(function addEyesEverywhere() {
+  const elements = Array.from(document.querySelectorAll('p, h1, h2, h3, img, button, a, li, div'));
+  const eyes = [];
+
+  elements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.width < 50 || rect.height < 30 || rect.top < 0 || rect.bottom > window.innerHeight) return;
+
+    const eye = document.createElement('div');
+    eye.style.position = 'absolute';
+    eye.style.left = window.scrollX + rect.left + rect.width / 2 - 10 + 'px';
+    eye.style.top = window.scrollY + rect.top + 5 + 'px';
+    eye.style.width = '20px';
+    eye.style.height = '20px';
+    eye.style.background = 'white';
+    eye.style.border = '2px solid black';
+    eye.style.borderRadius = '50%';
+    eye.style.zIndex = 9999;
+    eye.style.display = 'flex';
+    eye.style.alignItems = 'center';
+    eye.style.justifyContent = 'center';
+    eye.style.pointerEvents = 'none';
+
+    const pupil = document.createElement('div');
+    pupil.style.width = '8px';
+    pupil.style.height = '8px';
+    pupil.style.background = 'black';
+    pupil.style.borderRadius = '50%';
+    pupil.style.position = 'relative';
+
+    eye.appendChild(pupil);
+    document.body.appendChild(eye);
+    eyes.push({ eye, pupil });
+  });
+
+  function movePupils(e) {
+    eyes.forEach(({ eye, pupil }) => {
+      const rect = eye.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const angle = Math.atan2(dy, dx);
+      const maxOffset = 5;
+      pupil.style.left = Math.cos(angle) * maxOffset + 'px';
+      pupil.style.top = Math.sin(angle) * maxOffset + 'px';
+    });
+  }
+
+  document.addEventListener('mousemove', movePupils);
+
+  // Save for clear after
+  window.__eyeOverload = eyes;
+})();
