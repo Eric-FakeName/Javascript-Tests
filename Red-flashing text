@@ -1,0 +1,15 @@
+// select all text
+const elements = document.querySelectorAll('body *');
+
+elements.forEach(el => {
+  // animation that alternate color at regular intervals
+  el.style.transition = "color 0.5s";
+});
+
+let visible = true;
+setInterval(() => {
+  elements.forEach(el => {
+    el.style.color = visible ? "red" : "inherit"; // change with a color that you want
+  });
+  visible = !visible;
+}, 500);
