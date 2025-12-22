@@ -1,0 +1,36 @@
+(function retroClock() {
+  if (document.getElementById('retro-clock')) return;
+
+  const clock = document.createElement('div');
+  clock.id = 'retro-clock';
+  clock.style.position = 'fixed';
+  clock.style.top = '20px';
+  clock.style.right = '20px';
+  clock.style.padding = '10px 20px';
+  clock.style.fontFamily = '"Courier New", monospace';
+  clock.style.fontSize = '28px';
+  clock.style.backgroundColor = '#000';
+  clock.style.color = '#39ff14';
+  clock.style.border = '2px solid #39ff14';
+  clock.style.borderRadius = '6px';
+  clock.style.boxShadow = '0 0 10px #39ff14';
+  clock.style.zIndex = 99999;
+  clock.style.userSelect = 'none';
+  clock.style.pointerEvents = 'none'; // Ne gêne pas l'interaction
+
+  document.body.appendChild(clock);
+
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    clock.textContent = `${h}:${m}:${s}`;
+  }
+
+  updateClock();
+  const interval = setInterval(updateClock, 1000);
+
+  // To remove the clock after
+  window.__retroClockInterval = interval;
+})();
