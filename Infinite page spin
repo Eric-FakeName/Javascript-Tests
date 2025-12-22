@@ -1,0 +1,9 @@
+let start = null;
+function slowRotate(timestamp) {
+  if (!start) start = timestamp;
+  const progress = timestamp - start;
+  const angle = (progress / 10000) * 360; // 10 secondes pour un tour complet
+  document.body.style.transform = `rotate(${angle}deg)`;
+  requestAnimationFrame(slowRotate);
+}
+requestAnimationFrame(slowRotate);
