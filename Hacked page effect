@@ -1,0 +1,6 @@
+// Makes the text green with monospace font and the background black
+document.body.style.background = 'black';
+document.querySelectorAll('*').forEach(el => {
+  el.style.color = '#00ff00';
+  el.style.fontFamily = 'monospace';
+});
