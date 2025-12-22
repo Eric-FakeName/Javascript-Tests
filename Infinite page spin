@@ -1,4 +1,4 @@
-let start = null;
+left start = null;
 function slowRotate(timestamp) {
   if (!start) start = timestamp;
   const progress = timestamp - start;
