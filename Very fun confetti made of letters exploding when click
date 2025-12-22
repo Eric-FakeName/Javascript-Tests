@@ -1,0 +1,159 @@
+(() => {
+  if (window._confettiMotInstalle) {
+    console.warn("Confettis déjà installés.");
+    return;
+  }
+  window._confettiMotInstalle = true;
+
+
+  // WRITE HERE THE WORD TO BURST INTO CONFETTI
+  const MOT_CONFETTI = "aya";
+
+  // Transformation du mot en tableau de lettres
+  const lettres = MOT_CONFETTI.split("");
+
+  // Possible colors for the letters add as many as you want
+  const couleurs = ["#ff4d6d", "#ffd166", "#06d6a0", "#4d8cff", "#c77dff", "#ff8fb1"];
+
+
+  // Main container for the confetti
+  const conteneur = document.createElement("div");
+  Object.assign(conteneur.style, {
+    position: "fixed",
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none",
+    overflow: "visible",
+    zIndex: 9999999,
+  });
+  document.body.appendChild(conteneur);
+
+
+
+  function creerParticule(x, y) {
+    const el = document.createElement("div");
+    el.textContent = lettres[Math.floor(Math.random() * lettres.length)];
+
+    const taille = 12 + Math.random() * 28; // taille en pixels
+
+    Object.assign(el.style, {
+      position: "fixed",
+      left: `${x - taille / 2}px`,
+      top: `${y - taille / 2}px`,
+      fontWeight: "700",
+      fontFamily: "Arial, Helvetica, sans-serif",
+      fontSize: `${taille}px`,
+      lineHeight: "1",
+      transformOrigin: "center",
+      willChange: "transform, opacity, top, left",
+      color: couleurs[Math.floor(Math.random() * couleurs.length)],
+      userSelect: "none",
+      pointerEvents: "none",
+      textShadow: "0 1px 0 rgba(0,0,0,0.15)",
+    });
+
+  
+
+    const angle = (Math.random() * Math.PI) - Math.PI / 2;
+    const vitesse = 2 + Math.random() * 7;
+
+    let vx = Math.cos(angle) * vitesse * (Math.random() < 0.5 ? -1 : 1);
+    let vy = Math.sin(angle) * vitesse - (1 + Math.random() * 3);
+
+    const rotation = (Math.random() * 20 - 10);
+    const dureeDeVie = 900 + Math.random() * 700;
+    const naissance = performance.now();
+
+    conteneur.appendChild(el);
+
+    function animation(now) {
+      const t = now - naissance;
+
+      if (t >= dureeDeVie) {
+        el.style.transition = "opacity 250ms linear";
+        el.style.opacity = "0";
+        setTimeout(() => el.remove(), 300);
+        return;
+      }
+
+      // Gravity
+      vy += 0.25;
+
+      // Air resistance
+      vx *= 0.995;
+      vy *= 0.995;
+
+      // Position update
+      const gauche = parseFloat(el.style.left);
+      const haut = parseFloat(el.style.top);
+
+      el.style.left = `${gauche + vx}px`;
+      el.style.top = `${haut + vy}px`;
+
+      // Rotation and tilt
+      const angleRotation = rotation * (t / 16);
+      const inclinaison = Math.sin(t / 100 + (vx + vy)) * 20;
+
+      el.style.transform = `rotate(${angleRotation}deg) perspective(400px) rotateX(${inclinaison}deg)`;
+
+      // Fading at the end
+      if (t > dureeDeVie * 0.7) {
+        el.style.opacity = `${1 - (t - dureeDeVie * 0.7) / (dureeDeVie * 0.3)}`;
+      }
+
+      requestAnimationFrame(animation);
+    }
+
+    requestAnimationFrame(animation);
+  }
+
+
+  function exploser(x, y) {
+    const nombre = 25 + Math.floor(Math.random() * 25);
+    for (let i = 0; i < nombre; i++) {
+      setTimeout(
+        () => creerParticule(x + (Math.random() * 12 - 6), y + (Math.random() * 12 - 6)),
+        Math.random() * 60
+      );
+    }
+  }
+
+
+  function auClic(e) {
+    exploser(e.clientX, e.clientY);
+  }
+
+  window.addEventListener("click", auClic, { capture: true });
+
+
+  const badge = document.createElement("div");
+  badge.textContent = `Confettis actifs — mot : "${MOT_CONFETTI}"`;
+  Object.assign(badge.style, {
+    position: "fixed",
+    right: "12px",
+    top: "12px",
+    background: "rgba(0,0,0,0.6)",
+    color: "#fff",
+    padding: "6px 10px",
+    borderRadius: "8px",
+    fontSize: "12px",
+    zIndex: 99999999,
+    pointerEvents: "none",
+    fontFamily: "system-ui, Segoe UI, Roboto, Arial",
+  });
+  document.body.appendChild(badge);
+
+
+  window._supprimerConfettisMot = () => {
+    window.removeEventListener("click", auClic, { capture: true });
+    conteneur.remove();
+    badge.remove();
+    window._confettiMotInstalle = false;
+    delete window._supprimerConfettisMot;
+    console.info("Confettis removed.");
+  };
+
+  console.info(`Confetti installed — click anywhere to blast "${MOT_CONFETTI}".`);
+})();
