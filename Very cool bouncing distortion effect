@@ -1,0 +1,11 @@
+let angle = 0;
+function deformPage() {
+  angle += 0.05;
+  // oscillation with skew (tilt) and scale (zoom) deformation
+  const skewX = Math.sin(angle) * 10;  // jusqu'à ±10 degrés d'inclinaison horizontale
+  const scaleX = 1 + Math.sin(angle * 2) * 0.1;  // oscillation zoom horizontal entre 0.9 et 1.1
+  const scaleY = 1 + Math.cos(angle * 3) * 0.1;  // oscillation zoom vertical entre 0.9 et 1.1
+  document.body.style.transform = `skewX(${skewX}deg) scale(${scaleX}, ${scaleY})`;
+  requestAnimationFrame(deformPage);
+}
+deformPage();
