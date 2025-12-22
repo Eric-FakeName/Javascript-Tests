@@ -1,2 +1,4 @@
 document.body.style.transform = 'scaleX(-1)';
 document.body.style.direction = 'rtl'; // not necessary
+
+// if you change the -1 by -3 or other numbers there's a scaled distortion effect
