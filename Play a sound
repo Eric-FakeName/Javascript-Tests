@@ -1,0 +1,49 @@
+// if you want to put it in another language, for example French, replace en with fr
+let voices = speechSynthesis.getVoices();
+let msg = new SpeechSynthesisUtterance("This site has been hacked by the cute cats gang !");
+msg.voice = voices.find(voice => voice.lang.includes('en'));
+speechSynthesis.speak(msg);
+
+
+
+
+
+
+
+// other version, with the text being displayed
+const text = "This site has been hacked by the cute cats gang !";
+
+// display
+const banner = document.createElement("div");
+banner.textContent = text;
+
+Object.assign(banner.style, {
+  position: "fixed",
+  top: "20px",
+  left: "50%",
+  transform: "translateX(-50%)",
+  background: "black",
+  color: "lime",
+  padding: "15px 25px",
+  fontSize: "20px",
+  fontFamily: "monospace",
+  borderRadius: "8px",
+  zIndex: "999999",
+  boxShadow: "0 0 15px lime",
+  opacity: "1",
+  transition: "opacity 1s ease"
+});
+
+document.body.appendChild(banner);
+
+// voice
+let voices = speechSynthesis.getVoices();
+let msg = new SpeechSynthesisUtterance(text);
+msg.voice = voices.find(voice => voice.lang.includes('en'));
+speechSynthesis.speak(msg);
+
+// clear after 4 seconds
+setTimeout(() => {
+  banner.style.opacity = "0";
+  setTimeout(() => banner.remove(), 1000);
+}, 4000);
