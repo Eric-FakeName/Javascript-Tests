@@ -1,13 +1,13 @@
 (function remplacerParPatate() {
     const remplacerTexte = (noeud) => {
         if (noeud.nodeType === Node.TEXT_NODE) {
-            // Ne pas modifier les textes vides
+            // Not replacing empty text like space
             if (noeud.textContent.trim().length > 0) {
                 // Replace each word of the text by the same word
-                noeud.textContent = noeud.textContent.replace(/\b\w+\b/g, 'potatoe'); // write the word you want instead of poetatoe
+                noeud.textContent = noeud.textContent.replace(/\b\w+\b/g, 'potatoe'); // write the word you want instead of potatoe
             }
         } else if (noeud.nodeType === Node.ELEMENT_NODE && !['SCRIPT', 'STYLE', 'NOSCRIPT', 'IFRAME'].includes(noeud.tagName)) {
-            // Parcours récursif des enfants
+            // 
             for (let enfant of noeud.childNodes) {
                 remplacerTexte(enfant);
             }
