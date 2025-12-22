@@ -1,0 +1,43 @@
+function createEye(x, y) {
+  const eye = document.createElement('div');
+  eye.style.position = 'fixed';
+  eye.style.left = x + 'px';
+  eye.style.top = y + 'px';
+  eye.style.width = '40px';
+  eye.style.height = '40px';
+  eye.style.background = 'white';
+  eye.style.border = '2px solid black';
+  eye.style.borderRadius = '50%';
+  eye.style.zIndex = 9999;
+  eye.style.display = 'flex';
+  eye.style.alignItems = 'center';
+  eye.style.justifyContent = 'center';
+
+  const pupil = document.createElement('div');
+  pupil.style.width = '15px';
+  pupil.style.height = '15px';
+  pupil.style.background = 'black';
+  pupil.style.borderRadius = '50%';
+  pupil.style.position = 'relative';
+
+  eye.appendChild(pupil);
+  document.body.appendChild(eye);
+
+  function movePupil(e) {
+    const rect = eye.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const angle = Math.atan2(dy, dx);
+    const maxOffset = 8;
+    pupil.style.left = Math.cos(angle) * maxOffset + 'px';
+    pupil.style.top = Math.sin(angle) * maxOffset + 'px';
+  }
+
+  document.addEventListener('mousemove', movePupil);
+}
+
+// Ajoute deux yeux en haut à gauche
+createEye(50, 50);
+createEye(100, 50);
