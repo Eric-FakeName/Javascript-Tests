@@ -1,0 +1,56 @@
+(() => {
+  // Balises à ignorer
+  const SKIP_TAGS = new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','INPUT','IFRAME','CANVAS','SELECT','OPTION']);
+  // Stockage des originaux (WeakMap pour éviter fuites mémoire)
+  const originalMap = new WeakMap();
+
+  // Fonction qui transforme le texte : garde ' ' et retours à la ligne, remplace le reste par 0/1 aléatoire
+  const toBinary = txt => txt.replace(/[^\n\r ]/g, () => (Math.random() < 0.5 ? '0' : '1'));
+
+  // TreeWalker pour parcourir tous les noeuds textes du body
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        // s'il n'y a pas de parent ou c'est que de l'espace/retour à la ligne -> ignorer
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        // ignorer certaines balises
+        if (SKIP_TAGS.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        // ignorer les zones éditables pour éviter de casser des éditeurs
+        if (parent.isContentEditable) return NodeFilter.FILTER_REJECT;
+        // si le texte est uniquement des espaces/newlines, rien à faire
+        if (!/[^\n\r ]/.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    },
+    false
+  );
+
+  // Collecte des noeuds (ne pas modifier pendant l'itération)
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  // Appliquer la transformation et sauvegarder l'original
+  textNodes.forEach(n => {
+    if (!originalMap.has(n)) originalMap.set(n, n.nodeValue);
+    n.nodeValue = toBinary(n.nodeValue);
+  });
+
+  // Fournir une fonction de restauration accessible via la console
+  window.__restoreBinaryText = () => {
+    try {
+      textNodes.forEach(n => {
+        if (originalMap.has(n)) n.nodeValue = originalMap.get(n);
+      });
+      // nettoyage optionnel : retirer la référence pour éviter redondance
+      delete window.__restoreBinaryText;
+      console.log('Texte restauré à l\'original.');
+    } catch (e) {
+      console.error('Erreur lors de la restauration :', e);
+    }
+  };
+
+  console.log('Conversion terminée. Pour restaurer le texte original, tapez : window.__restoreBinaryText()');
+})();
