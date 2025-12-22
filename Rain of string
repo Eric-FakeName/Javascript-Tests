@@ -1,0 +1,43 @@
+const emojiRain = () => {
+  const emojis = ['💧', '☔', '🌧️', '💦'];
+  const rainContainer = document.createElement('div');
+  rainContainer.style.position = 'fixed';
+  rainContainer.style.top = 0;
+  rainContainer.style.left = 0;
+  rainContainer.style.width = '100%';
+  rainContainer.style.height = '100%';
+  rainContainer.style.pointerEvents = 'none';
+  rainContainer.style.zIndex = 99999;
+  document.body.appendChild(rainContainer);
+
+  function createEmojiDrop() {
+    const drop = document.createElement('div');
+    drop.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    drop.style.position = 'absolute';
+    drop.style.left = Math.random() * window.innerWidth + 'px';
+    drop.style.top = '-50px';
+    drop.style.fontSize = (Math.random() * 20 + 20) + 'px';
+    drop.style.opacity = Math.random() * 0.8 + 0.2;
+    drop.style.transition = 'top 3s linear';
+    rainContainer.appendChild(drop);
+
+    // Lancer la chute
+    setTimeout(() => {
+      drop.style.top = window.innerHeight + 'px';
+    }, 50);
+
+    // Supprimer après la chute
+    setTimeout(() => {
+      drop.remove();
+    }, 3500);
+  }
+
+  // Regular start of drops
+  const rainInterval = setInterval(createEmojiDrop, 200);
+
+  // Global storage to do a possible shutdown
+  window.__emojiRainInterval = rainInterval;
+  window.__emojiRainContainer = rainContainer;
+};
+
+emojiRain();
