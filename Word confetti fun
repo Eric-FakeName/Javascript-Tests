@@ -1,0 +1,29 @@
+document.addEventListener('click', (e) => {
+  for (let i = 0; i < 20; i++) {
+    let confetti = document.createElement('div');
+    confetti.textContent = 'Hello'; // INSTEAD OF "Hello", YOU CAN PUT ANY WORD
+    confetti.style.position = 'fixed';
+    confetti.style.left = e.clientX + 'px';
+    confetti.style.top = e.clientY + 'px';
+    confetti.style.fontSize = Math.random() * 10 + 12 + 'px';
+    confetti.style.fontWeight = 'bold';
+    confetti.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    confetti.style.pointerEvents = 'none';
+    confetti.style.userSelect = 'none';
+    confetti.style.transition = 'transform 1s ease-out, opacity 1s';
+    confetti.style.whiteSpace = 'nowrap';
+    document.body.appendChild(confetti);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const radius = Math.random() * 150;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius - Math.random() * 100; // un peu vers le haut
+
+    setTimeout(() => {
+      confetti.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 360}deg)`;
+      confetti.style.opacity = 0;
+    }, 10);
+
+    setTimeout(() => confetti.remove(), 1500);
+  }
+});
