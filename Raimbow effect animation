@@ -1,0 +1,32 @@
+//------------------------------------------------------------------------------------
+// this is to apply the background image
+document.body.style.backgroundImage = "url('PASTE_THE_URL_OF_YOUR_PICTURE')";
+document.body.style.backgroundSize = "cover";
+document.body.style.backgroundRepeat = "no-repeat";
+document.body.style.backgroundPosition = "center";
+//------------------------------------------------------------------------------------
+
+// and that is to create an animated rainbow overlay
+const rainbowOverlay = document.createElement("div");
+rainbowOverlay.style.position = "fixed";
+rainbowOverlay.style.top = 0;
+rainbowOverlay.style.left = 0;
+rainbowOverlay.style.width = "100vw";
+rainbowOverlay.style.height = "100vh";
+rainbowOverlay.style.pointerEvents = "none"; // pour ne pas bloquer les clics
+rainbowOverlay.style.zIndex = 9999;
+rainbowOverlay.style.background = "linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet)";
+rainbowOverlay.style.backgroundSize = "1400% 1400%";
+rainbowOverlay.style.mixBlendMode = "screen"; // pour l'effet visuel
+rainbowOverlay.style.animation = "rainbowAnim 10s ease infinite";
+document.body.appendChild(rainbowOverlay);
+
+// add the animation using a tag <style>
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes rainbowAnim {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}`;
+document.head.appendChild(style);
