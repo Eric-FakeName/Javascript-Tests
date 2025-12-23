@@ -1,6 +1,6 @@
 (() => {
   if (window._confettiMotInstalle) {
-    console.warn("Confettis déjà installés.");
+    console.warn("Confettis already set.");
     return;
   }
   window._confettiMotInstalle = true;
