@@ -1,27 +1,27 @@
-// On stocke l'élément animé pour pouvoir arrêter l'animation si besoin
+// We store the animated element so we can stop the animation if needed
 let bouncingElement = null;
 
 document.body.addEventListener('click', (e) => {
   const el = e.target;
 
-  // Si on clique sur le même élément en cours d'animation, on arrête l'animation
+  // If you click on the same item while it's animating the animation stops
   if (bouncingElement === el) {
     el.style.animation = '';
     bouncingElement = null;
     return;
   }
 
-  // Si un autre élément bounceait, on arrête son animation avant d'en lancer une nouvelle
+  // If another element is bouncing, we stop its animation before starting a new one
   if (bouncingElement) {
     bouncingElement.style.animation = '';
   }
 
-  // On lance l'animation bounce infinie sur l'élément cliqué
+  // We start the infinite bounce animation on the clicked element
   el.style.animation = 'bounceLoop 0.6s ease-in-out infinite';
   bouncingElement = el;
 });
 
-// Ajouter la clé d'animation CSS au document
+// Add the CSS animation key to the document
 const style = document.createElement('style');
 style.id = 'bounceLoopStyles';
 style.textContent = `
