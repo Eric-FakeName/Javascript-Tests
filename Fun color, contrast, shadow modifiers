@@ -1,0 +1,18 @@
+//grayscale
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `* {filter: grayscale(100%);}`;  document.head.appendChild(style_apply_micro);
+
+//sepia
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `* {filter: sepia(100%) brightness(80%); document.head.appendChild(style_apply_micro);
+
+//contrast
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `* {filter: contrast(120%);}`;  document.head.appendChild(style_apply_micro);
+
+// invert
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `* {filter: invert(100%);  /*background-color: black; color: white;*/}`; document.head.appendChild(style_apply_micro);
+
+// saturate
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `* {filter: saturate(500%);}`;  document.head.appendChild(style_apply_micro);
+
+// shadow
+var style_apply_micro = document.createElement("style"); style_apply_micro.textContent = `img,a,h1, h2{filter: drop-shadow(2px 2px 1px grey)}`;  document.head.appendChild(style_apply_micro);
+
