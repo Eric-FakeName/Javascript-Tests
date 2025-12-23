@@ -9,7 +9,6 @@ speechSynthesis.speak(msg);
 
 
 
-
 // other version, with the text being displayed
 const text = "This site has been hacked by the cute cats gang !";
 
