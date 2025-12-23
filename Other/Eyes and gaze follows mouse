@@ -3,8 +3,8 @@ function createEye(x, y) {
   eye.style.position = 'fixed';
   eye.style.left = x + 'px';
   eye.style.top = y + 'px';
-  eye.style.width = '40px';
-  eye.style.height = '40px';
+  eye.style.width = '40px'; // if you want them bigger replace 40 by 100
+  eye.style.height = '40px'; // if you want them bigger replace 40 by 100
   eye.style.background = 'white';
   eye.style.border = '2px solid black';
   eye.style.borderRadius = '50%';
@@ -14,8 +14,8 @@ function createEye(x, y) {
   eye.style.justifyContent = 'center';
 
   const pupil = document.createElement('div');
-  pupil.style.width = '15px';
-  pupil.style.height = '15px';
+  pupil.style.width = '15px'; // if you want them bigger replace 15 by 40
+  pupil.style.height = '15px'; // if you want them bigger replace 15 by 40
   pupil.style.background = 'black';
   pupil.style.borderRadius = '50%';
   pupil.style.position = 'relative';
@@ -39,5 +39,5 @@ function createEye(x, y) {
 }
 
 // Ajoute deux yeux en haut à gauche
-createEye(50, 50);
+createEye(50, 50); // if you want them bigger replace createEye(50, 50) by createEye(10, 50)
 createEye(100, 50);
